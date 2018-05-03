@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">J&amp;JBars Calisthenics</string>
+    <string name="j_jbars"><![CDATA[J&JBars]]></string>
+    <string name="create_custom_workout">Create Custom Workout</string>
+    <string name="generate_random_workout">Generate Random Workout</string>
+    <string name="saved_workouts">Saved Workouts</string>
+    <string name="back"><![CDATA[< Back]]></string>
+    <string name="remove">Remove</string>
+    <string name="add_round">Add Round</string>
+    <string name="save_workout">Save Workout</string>
+    <string name="add">Add</string>
+
+</resources>

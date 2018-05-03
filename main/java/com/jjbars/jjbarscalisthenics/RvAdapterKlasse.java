@@ -16,7 +16,8 @@ import static com.jjbars.jjbarscalisthenics.CreateCustomWorkout.good;
 
 public class RvAdapterKlasse extends RecyclerView.Adapter<RvAdapterKlasse.ViewHolderKlasse> {
 
-    private ArrayList<thenxObjects> dataset;
+    private ArrayList<String> dataset;
+
 
     public class ViewHolderKlasse extends RecyclerView.ViewHolder{
 
@@ -31,18 +32,16 @@ public class RvAdapterKlasse extends RecyclerView.Adapter<RvAdapterKlasse.ViewHo
         }
     }
 
-    public RvAdapterKlasse(ArrayList <thenxObjects> data){this.dataset = data;}
+    public RvAdapterKlasse(ArrayList <String> data){this.dataset = data;}
+
+
 
 
     @Override
     public ViewHolderKlasse onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         View itemView1 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_layout, null);
-       /* if (CreateCustomWorkout.round){
-            itemView1 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.round_layout, null);
-        }else {
-            itemView1 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_layout, null);
-        }*/
+
 
         return new ViewHolderKlasse(itemView1);
     }
@@ -50,7 +49,7 @@ public class RvAdapterKlasse extends RecyclerView.Adapter<RvAdapterKlasse.ViewHo
     @Override
     public void onBindViewHolder(ViewHolderKlasse viewHolderKlasse, final int i) {
 
-        viewHolderKlasse.exercise.setText(Html.fromHtml(dataset.get(i).getExercise()));
+        viewHolderKlasse.exercise.setText(Html.fromHtml(dataset.get(i)));
 
 
 

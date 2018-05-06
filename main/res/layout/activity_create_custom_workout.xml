@@ -97,4 +97,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/workout_name_text"
+        android:layout_width="188dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Workout 1"
+        android:inputType="textPersonName"
+        android:text="Workout 1"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/find_exercises_recyclerView" />
+
 </android.support.constraint.ConstraintLayout>

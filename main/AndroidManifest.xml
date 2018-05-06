@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".SavedWorkouts" />
         <activity android:name=".GenerateRandomWorkout" />
-        <activity android:name=".CreateCustomWorkout"></activity>
+        <activity android:name=".CreateCustomWorkout" />
+        <activity android:name=".show_workout"></activity>
     </application>
 
 </manifest>

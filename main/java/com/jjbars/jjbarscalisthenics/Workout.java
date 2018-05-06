@@ -1,11 +1,24 @@
 package com.jjbars.jjbarscalisthenics;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Workout {
 
    private ArrayList<String> Exercises = new ArrayList<>();
+   private String Title;
 
+   public Workout(String title){
+       this.Title=title;
+   }
     public String getTitle() {
         return Title;
     }
@@ -14,8 +27,6 @@ public class Workout {
         Title = title;
     }
 
-    String Title;
-    public Workout(){}
 
     public void addExercise(String s){
         this.Exercises.add(s);
@@ -32,4 +43,6 @@ public class Workout {
     public ArrayList<String> getExercises() {
         return Exercises;
     }
+
+
 }

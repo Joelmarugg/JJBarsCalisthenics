@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -36,20 +39,23 @@ public class CreateCustomWorkout extends AppCompatActivity {
     static RecyclerView.Adapter rvadapter2;
     RecyclerView.LayoutManager rvLayoutManager1;
     RecyclerView.LayoutManager rvLayoutManager2;
-    public static ArrayList<thenxObjects> selectedList;
+    public static Workout selectedList;
     Button add_round_button;
 
-    public static ArrayList<thenxObjects> data;
+    public static ArrayList<String> data;
     ArrayList<String> exerciseList;
     DatabaseHelper db ;
     public static boolean good = true ;
     public static Context c;
     public static boolean round;
     static int num = 1;
-
+    private TextView tv;
+    private String title = "Custom Workout";
 
     private Button save_Workout_Button;
-    public ArrayList<ArrayList<thenxObjects>> savedWorkouts;// = new ArrayList<ArrayList<thenxObjects>>();
+
+    public static ArrayList<Workout> savedWorkouts = new ArrayList<>();
+
 
 
 
@@ -64,6 +70,9 @@ public class CreateCustomWorkout extends AppCompatActivity {
         recyclerView1 =  findViewById(R.id.find_exercises_recyclerView);
         recyclerView1.setHasFixedSize(true);
 
+
+        tv = findViewById(R.id.workout_name_text);
+
         db = new DatabaseHelper(this);
         filter =  findViewById(R.id.filter_searchView);
         filter.setQueryHint("Search Here");
@@ -72,10 +81,10 @@ public class CreateCustomWorkout extends AppCompatActivity {
         recyclerView2.setLayoutManager(rvLayoutManager2);
         rvLayoutManager1 = new LinearLayoutManager(this);
         recyclerView1.setLayoutManager(rvLayoutManager1);
-        selectedList = new ArrayList<>();
-        data = new ArrayList<thenxObjects>();
+        selectedList = new Workout(title);
+        data = new ArrayList<>();
         c = this;
-        loadData();
+        //workout_saveloader.loadData(this);
         fetchData();
 
         add_round_button = findViewById(R.id.add_round_button);
@@ -89,6 +98,25 @@ public class CreateCustomWorkout extends AppCompatActivity {
 
 
 
+
+        tv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                title=tv.getText().toString();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                title=tv.getText().toString();
+                System.out.println(title);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                title=tv.getText().toString();
+            }
+        });
 
 
 
@@ -138,12 +166,15 @@ public class CreateCustomWorkout extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String query) {
                    query = query.toLowerCase();
-                    final ArrayList<thenxObjects>filteredList = new ArrayList<thenxObjects>();
+                    final ArrayList<String>filteredList = new ArrayList<>();
+
+
+
                     for (int i = 0; i < exerciseList.size(); i++) {
                         final String text = exerciseList.get(i).toLowerCase();
                         if (text.contains(query)) {
 
-                            filteredList.add(new thenxObjects(exerciseList.get(i)));
+                            filteredList.add(exerciseList.get(i));
                         }
                        // good = true;
                         rvadapter1 = new RvAdapterKlasse(filteredList);
@@ -164,75 +195,64 @@ public class CreateCustomWorkout extends AppCompatActivity {
         save_Workout_Button = findViewById(R.id.save_workout_button);
         save_Workout_Button.setOnClickListener(v -> {
 
+            selectedList.setTitle(title);
+            savedWorkouts = workout_saveloader.loadData(c);
             savedWorkouts.add(selectedList);
-            saveData();
+            workout_saveloader.saveData(this,savedWorkouts);
             System.out.println("size of workoutlist: " + savedWorkouts.size());
         });
 
     }
 
-    private void saveData(){
-        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(savedWorkouts);
-        editor.putString("Workout X",json);
-        editor.apply();
-    }
 
-    private void loadData(){
-        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("Workout X",null);
-        Type type = new TypeToken<ArrayList<ArrayList<thenxObjects>>>() {}.getType();
-        savedWorkouts = gson.fromJson(json,type);
 
-        if(savedWorkouts== null){
-            savedWorkouts = new ArrayList<>();
-        }
-    }
-
-    public static void setSelectedList(thenxObjects thenxObject){
+    public static void setSelectedList(String thenxObject){
 
         round=false;
         if (good){
         boolean exist = false;
-        Iterator<thenxObjects> i = selectedList.iterator();
-        while (i.hasNext()){
-            if(i.next().equals(thenxObject)){
+        //Iterator<thenxObjects> i = selectedList.iterator();
+        for (String s :selectedList.getExercises()){
+            if(s.equals(thenxObject)){
                 exist = true;
             }
         }
         if (!exist) {
-            selectedList.add(thenxObject);
+            //selectedList.add(thenxObject);
+            selectedList.addExercise(thenxObject);
+
         }else{
 
             Toast.makeText(c,"This exercise already exist!",Toast.LENGTH_SHORT).show();
         }
-        rvadapter2 = new RvAdapterKlasse(selectedList);
+        rvadapter2 = new RvAdapterKlasse(selectedList.getExercises());
         recyclerView2.setAdapter(rvadapter2);
-        recyclerView2.smoothScrollToPosition(selectedList.size());
+        recyclerView2.smoothScrollToPosition(selectedList.getExercises().size());
     }}
 
-    public static void delSelectedList(thenxObjects thenxObject){
+    public static void delSelectedList(String thenxObject){
        round=false;
        int count = -1;
         if(!good){
         boolean deleted = false;
-        Iterator<thenxObjects> i = selectedList.iterator();
-        while (i.hasNext()&& !deleted){
-            count++;
+        Iterator <String> i = selectedList.getExercises().iterator();
+        while (i.hasNext()){
+            if(!deleted) {
+                count++;
+            }else{
+            break;
+                }
             if(i.next().equals(thenxObject)){
 
 
-                if(thenxObject.getExercise().toString().charAt(0) == '<' && ((int) (thenxObject.getExercise().toString().charAt(12)) - 48) != (num - 1)){
+                if(thenxObject.charAt(0) == '<' && ((int) (thenxObject.charAt(12)) - 48) != (num - 1)){
                     Toast.makeText(c,"Delete last round!",Toast.LENGTH_SHORT).show();
 
                 }else {
-                    selectedList.remove(thenxObject);
+                    selectedList.deleteExercise(thenxObject);
                     deleted = true;
 
-                    if (thenxObject.getExercise().toString().charAt(0) == '<' ){
+                    if (thenxObject.charAt(0) == '<' ){
                     num--;
                     }
                 }
@@ -240,7 +260,7 @@ public class CreateCustomWorkout extends AppCompatActivity {
 
         }
 
-        rvadapter2 = new RvAdapterKlasse(selectedList);
+        rvadapter2 = new RvAdapterKlasse(selectedList.getExercises());
         recyclerView2.setAdapter(rvadapter2);
         recyclerView2.smoothScrollToPosition(count+2);
     }}
@@ -249,10 +269,10 @@ public class CreateCustomWorkout extends AppCompatActivity {
 
 
         round = true;
-        selectedList.add(new thenxObjects("Round " + String.valueOf(num),""));
-        rvadapter2 = new RvAdapterKlasse(selectedList);
+        selectedList.addExercise("<u><b>"+"Round"+ " " + String.valueOf(num)+"</b></u>" );
+        rvadapter2 = new RvAdapterKlasse(selectedList.getExercises());
         recyclerView2.setAdapter(rvadapter2);
-        recyclerView2.smoothScrollToPosition(selectedList.size());
+        recyclerView2.smoothScrollToPosition(selectedList.getExercises().size());
         num++;
     }
 
@@ -279,7 +299,8 @@ public class CreateCustomWorkout extends AppCompatActivity {
 
 
         for (int i = 0; i < exerciseList.size(); i++) {
-            data.add(new thenxObjects(exerciseList.get(i)));
+            data.add((exerciseList.get(i)));
+
         }
 
 
@@ -368,7 +389,7 @@ public class CreateCustomWorkout extends AppCompatActivity {
             }
 
             exerciseList = new ArrayList<>();
-            final ArrayList<thenxObjects>filteredList = new ArrayList<thenxObjects>();
+            final ArrayList<String>filteredList = new ArrayList<>();
 
             SQLiteDatabase sd = db.getReadableDatabase();
             Cursor cursor = sd.rawQuery(MY_QUERY, null);
@@ -377,7 +398,7 @@ public class CreateCustomWorkout extends AppCompatActivity {
                 exerciseList.add(cursor.getString(c));
             }
             for (int i = 0; i < exerciseList.size(); i++) {
-                filteredList.add(new thenxObjects(exerciseList.get(i)));
+                filteredList.add((exerciseList.get(i)));
             }
             cursor.close();
            // good=true;

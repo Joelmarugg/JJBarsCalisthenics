@@ -19,6 +19,7 @@ public class RvAdapterKlasse extends RecyclerView.Adapter<RvAdapterKlasse.ViewHo
     private ArrayList<String> dataset;
 
 
+
     public class ViewHolderKlasse extends RecyclerView.ViewHolder{
 
         TextView exercise;
@@ -35,7 +36,10 @@ public class RvAdapterKlasse extends RecyclerView.Adapter<RvAdapterKlasse.ViewHo
     public RvAdapterKlasse(ArrayList <String> data){this.dataset = data;}
 
 
-
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
 
     @Override
     public ViewHolderKlasse onCreateViewHolder(ViewGroup viewGroup, int i) {

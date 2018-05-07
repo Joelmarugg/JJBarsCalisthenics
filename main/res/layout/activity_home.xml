@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/bg"
     tools:context=".Home"
     tools:layout_editor_absoluteY="81dp">
 
@@ -11,44 +12,55 @@
         android:id="@+id/home_title_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="59dp"
-        android:layout_marginTop="58dp"
+        android:selectAllOnFocus="true"
         android:text="@string/j_jbars"
-        android:textSize="58sp"
+        android:textColor="@android:color/background_light"
+        android:textIsSelectable="false"
+        android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/create_custom_workout_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.962"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.027" />
 
     <Button
         android:id="@+id/create_custom_workout_button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="46dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:background="@drawable/button_background"
         android:text="@string/create_custom_workout"
+        android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/generate_random_workout_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/generate_random_workout_button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="49dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_background"
         android:text="@string/generate_random_workout"
+        android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/saved_workouts_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/saved_workouts_button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="64dp"
+        android:background="@drawable/button_background"
+        android:selectAllOnFocus="true"
         android:text="@string/saved_workouts"
+        android:textIsSelectable="false"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

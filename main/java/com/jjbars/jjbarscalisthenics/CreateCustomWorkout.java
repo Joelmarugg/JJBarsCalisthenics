@@ -50,7 +50,7 @@ public class CreateCustomWorkout extends AppCompatActivity {
     public static boolean round;
     static int num = 1;
     private TextView tv;
-    private String title = "Custom Workout";
+    private String title = null;
 
     private Button save_Workout_Button;
 
@@ -66,9 +66,10 @@ public class CreateCustomWorkout extends AppCompatActivity {
         setContentView(R.layout.activity_create_custom_workout);
 
         recyclerView2 = findViewById(R.id.create_custom_workout_recyclerView);
-        recyclerView2.setHasFixedSize(true);
+        //recyclerView2.setHasFixedSize(true);
         recyclerView1 =  findViewById(R.id.find_exercises_recyclerView);
-        recyclerView1.setHasFixedSize(true);
+        //recyclerView1.setHasFixedSize(true);
+
 
 
         tv = findViewById(R.id.workout_name_text);
@@ -86,6 +87,8 @@ public class CreateCustomWorkout extends AppCompatActivity {
         c = this;
         //workout_saveloader.loadData(this);
         fetchData();
+
+
 
         add_round_button = findViewById(R.id.add_round_button);
         add_round_button.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +112,7 @@ public class CreateCustomWorkout extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 title=tv.getText().toString();
-                System.out.println(title);
+
             }
 
             @Override
@@ -195,12 +198,37 @@ public class CreateCustomWorkout extends AppCompatActivity {
         save_Workout_Button = findViewById(R.id.save_workout_button);
         save_Workout_Button.setOnClickListener(v -> {
 
-            selectedList.setTitle(title);
             savedWorkouts = workout_saveloader.loadData(c);
-            savedWorkouts.add(selectedList);
-            workout_saveloader.saveData(this,savedWorkouts);
-            System.out.println("size of workoutlist: " + savedWorkouts.size());
-        });
+            Boolean exist = false;
+            if(savedWorkouts.size()!= 0){
+            for(Workout sw : savedWorkouts) {
+                if (title!=null&&(sw.getTitle().toLowerCase()).equals(title.toLowerCase())) {
+                    exist = true;
+                    Toast.makeText(c, "This Workout already exists!", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            }
+
+                if (title == null) {
+                    exist = true;
+                    Toast.makeText(c, "set a name for your workout!", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+                if(!exist) {
+                    selectedList.setTitle(title);
+
+                    savedWorkouts.add(selectedList);
+                    workout_saveloader.saveData(this, savedWorkouts);
+                    System.out.println("size of workoutlist: " + savedWorkouts.size());
+
+                    startActivity(new Intent(this, SavedWorkouts.class));
+
+                }
+
+            });
+
 
     }
 

@@ -19,6 +19,7 @@ public class Workout {
    public Workout(String title){
        this.Title=title;
    }
+
     public String getTitle() {
         return Title;
     }
@@ -26,6 +27,8 @@ public class Workout {
     public void setTitle(String title) {
         Title = title;
     }
+
+
 
 
     public void addExercise(String s){

@@ -35,4 +35,10 @@ public class workout_saveloader {
             savedWorkouts = new ArrayList<>();
         }
         return savedWorkouts;
-    }}
+    }
+
+    public static void removeData(Context c, String workout){
+
+
+    }
+}

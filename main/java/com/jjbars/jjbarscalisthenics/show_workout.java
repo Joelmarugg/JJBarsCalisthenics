@@ -8,6 +8,7 @@ import android.icu.text.StringSearch;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ public class show_workout extends AppCompatActivity {
         setContentView(R.layout.activity_show_workout);
 
         recyclerViewiu = findViewById(R.id.show_workout_recyclerview);
+        recyclerViewiu.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerViewiu.setHasFixedSize(true);
         rvLayoutManageriu = new LinearLayoutManager(this);
         recyclerViewiu.setLayoutManager(rvLayoutManageriu);

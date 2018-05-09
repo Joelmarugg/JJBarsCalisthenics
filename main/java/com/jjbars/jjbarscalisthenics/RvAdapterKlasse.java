@@ -6,6 +6,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,9 +27,11 @@ public class RvAdapterKlasse extends RecyclerView.Adapter<RvAdapterKlasse.ViewHo
 
 
 
+
         public ViewHolderKlasse(View itemView) {
             super(itemView);
             this.exercise = (TextView) itemView.findViewById(R.id.textViewItem);
+
 
         }
     }

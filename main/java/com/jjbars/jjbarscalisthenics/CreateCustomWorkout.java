@@ -3,6 +3,7 @@ package com.jjbars.jjbarscalisthenics;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -64,11 +65,12 @@ public class CreateCustomWorkout extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_custom_workout);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         recyclerView2 = findViewById(R.id.create_custom_workout_recyclerView);
-        //recyclerView2.setHasFixedSize(true);
+        recyclerView2.setHasFixedSize(true);
         recyclerView1 =  findViewById(R.id.find_exercises_recyclerView);
-        //recyclerView1.setHasFixedSize(true);
+        recyclerView1.setHasFixedSize(true);
 
 
 
@@ -85,8 +87,9 @@ public class CreateCustomWorkout extends AppCompatActivity {
         selectedList = new Workout(title);
         data = new ArrayList<>();
         c = this;
-        //workout_saveloader.loadData(this);
+
         fetchData();
+        CreateCustomWorkout.setRound();
 
 
 
@@ -201,19 +204,18 @@ public class CreateCustomWorkout extends AppCompatActivity {
             savedWorkouts = workout_saveloader.loadData(c);
             Boolean exist = false;
             if(savedWorkouts.size()!= 0){
-            for(Workout sw : savedWorkouts) {
-                if (title!=null&&(sw.getTitle().toLowerCase()).equals(title.toLowerCase())) {
-                    exist = true;
-                    Toast.makeText(c, "This Workout already exists!", Toast.LENGTH_SHORT).show();
-                    break;
+                for(Workout sw : savedWorkouts) {
+                    if (title!=null&&(sw.getTitle().toLowerCase()).equals(title.toLowerCase())) {
+                     exist = true;
+                     Toast.makeText(c, "This Workout already exists!", Toast.LENGTH_SHORT).show();
+                     break;
+                    }
                 }
             }
 
-                if (title == null) {
-                    exist = true;
-                    Toast.makeText(c, "set a name for your workout!", Toast.LENGTH_SHORT).show();
-
-                }
+            if (title == null || title.equals("")) {
+                exist = true;
+                Toast.makeText(c, "set a name for your workout!", Toast.LENGTH_SHORT).show();
 
             }
                 if(!exist) {

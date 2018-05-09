@@ -8,6 +8,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,13 +23,14 @@ class SRvAdapterKlasse extends RecyclerView.Adapter<SRvAdapterKlasse.SViewHolder
     public class SViewHolderKlasse extends RecyclerView.ViewHolder {
 
         TextView workout;
+        EditText reps_number;
 
 
 
         public SViewHolderKlasse(View itemView) {
             super(itemView);
-            this.workout = (TextView) itemView.findViewById(R.id.textViewItem);
-
+            this.workout = (TextView) itemView.findViewById(R.id.textExercise);
+            this.reps_number = (EditText) itemView.findViewById(R.id.reps_number);
         }
 
     }
@@ -43,7 +45,7 @@ class SRvAdapterKlasse extends RecyclerView.Adapter<SRvAdapterKlasse.SViewHolder
     @NonNull
     @Override
     public SViewHolderKlasse onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, null);
+        View itemView1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.reps_layout, null);
 
         context = itemView1.getContext();
 
